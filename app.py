@@ -85,12 +85,13 @@ def main():
     if "pgn" not in st.session_state:
         st.session_state.pgn=0
     
-    if st.button("Ask"):                          # ← gate the LLM call
-        answer = get_answer(curr)
-        st.session_state.chat_history.append((curr, answer))
     with st.session_state.chat.expander("chat",expanded=True):
         # print(history)
         # st.session_state.chat_history.append(((curr,answer)))
+
+        if st.button("Ask"):                          # ← gate the LLM call
+            answer = get_answer(curr)
+            st.session_state.chat_history.append((curr, answer))
         st.markdown(body=expander_css,unsafe_allow_html=True)
         st.markdown(body=css,unsafe_allow_html=True)
         for item in st.session_state.chat_history[::-1][:1]:
