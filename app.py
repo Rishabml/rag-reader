@@ -77,11 +77,11 @@ def main():
     # st.html(body=css)
     st.session_state.chat=chat
     st.session_state.pdf=pdf
-    st.session_state.chat.title("Intreactive Reader :books:")
-    st.session_state.chat.write("Ask question from the pdf.Ask question from the pdf.Ask question from the pdf.Ask question from the pdf.Ask question from the pdf.")
+    st.session_state.chat.title("Interactive Reader :books:")
+    st.session_state.chat.write("Ask question from the pdf.")
     if "chat_history" not in st.session_state:
         st.session_state.chat_history=[]
-    curr=st.session_state.chat.text_input("Ask something ....","This is placeholder",key="placeholder")
+    curr=st.session_state.chat.text_input("Ask something ....",key="placeholder")
     if "pgn" not in st.session_state:
         st.session_state.pgn=0
     
@@ -120,7 +120,7 @@ def main():
     
     if st.session_state.pdf_doc is not None:
         with NamedTemporaryFile(suffix="pdf") as temp2:
-                temp2.write(st.session_state.pdf_doc.getvalue())
+                # temp2.write(st.session_state.pdf_doc.getvalue())
                 with open(temp2.name, "rb") as f:
                     base64_pdf = base64.b64encode(f.read()).decode('utf-8')
 
