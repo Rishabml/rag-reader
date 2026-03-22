@@ -1,0 +1,30 @@
+[project]
+name = "stchatbot"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "chromadb>=1.5.5",
+    "gpt4all>=2.8.2",
+    "httpx>=0.28.1",
+    "jinja2>=3.1.6",
+    "langchain>=1.2.12",
+    "langchain-chroma>=1.1.0",
+    "langchain-classic>=1.0.3",
+    "langchain-community>=0.4.1",
+    "langchain-core>=1.2.20",
+    "langchain-google-genai>=4.2.1",
+    "langchain-groq>=1.1.2",
+    "langchain-ollama>=1.0.1",
+    "langchain-openai>=1.1.11",
+    "langchain-text-splitters>=1.1.1",
+    "mcp[cli]>=1.26.0",
+    "pydantic>=2.12.5",
+    "pypdf>=6.8.0",
+    "pypdf2>=3.0.1",
+    "python-dotenv>=1.2.2",
+    "requests>=2.32.5",
+    "sentence-transformers>=5.3.0",
+    "streamlit>=1.55.0",
+]
