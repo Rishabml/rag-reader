@@ -81,7 +81,7 @@ def main():
     st.session_state.chat.write("Ask question from the pdf.")
     if "chat_history" not in st.session_state:
         st.session_state.chat_history=[]
-    curr=st.session_state.chat.text_input("Ask something ....",key="placeholder")
+    curr=st.session_state.chat.text_input("Ask something ...."."What is this pdf about?",key="placeholder")
     if "pgn" not in st.session_state:
         st.session_state.pgn=0
     
