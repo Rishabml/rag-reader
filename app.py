@@ -36,7 +36,7 @@ def process_file(pdf_file):
     model_name = "sentence-transformers/all-mpnet-base-v2"
     model_kwargs = {'device': 'cpu'} # Use 'cuda' if you have a compatible GPU
     encode_kwargs = {'normalize_embeddings': False}
-    llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0 )
+    # llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0 )
     # Initialize the HuggingFaceEmbeddings class
     llm=ChatGroq(model="meta-llama/llama-4-scout-17b-16e-instruct",api_key=st.secrets["GROQ_API_KEY"])
 
