@@ -84,11 +84,12 @@ def main():
     curr=st.session_state.chat.text_input("Ask something ....","This is placeholder",key="placeholder")
     if "pgn" not in st.session_state:
         st.session_state.pgn=0
+    
+    if st.button("Ask"):                          # ← gate the LLM call
+        answer = get_answer(curr)
+        st.session_state.chat_history.append((curr, answer))
     with st.session_state.chat.expander("chat",expanded=True):
         # print(history)
-        if st.button("Ask"):                          # ← gate the LLM call
-            answer = get_answer(curr)
-            st.session_state.chat_history.append((curr, answer))
         # st.session_state.chat_history.append(((curr,answer)))
         st.markdown(body=expander_css,unsafe_allow_html=True)
         st.markdown(body=css,unsafe_allow_html=True)
