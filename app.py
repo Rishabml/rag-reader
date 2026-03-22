@@ -75,7 +75,6 @@ def main():
     st.set_page_config(layout="wide",page_icon=":books:",page_title="Interactive Reader")
     chat,pdf=st.columns(2)
     # st.html(body=css)
-    st.session_state.pdf_doc=None
     st.session_state.chat=chat
     st.session_state.pdf=pdf
     st.session_state.chat.title("Intreactive Reader :books:")
@@ -87,18 +86,10 @@ def main():
         st.session_state.pgn=0
     with st.session_state.chat.expander("chat",expanded=True):
         # print(history)
-        answer=get_answer(curr)
-        if st.session_state.pdf_doc is not None:
-            with NamedTemporaryFile(suffix="pdf") as temp2:
-                    temp2.write(st.session_state.pdf_doc.getvalue())
-                    with open(temp2.name, "rb") as f:
-                        base64_pdf = base64.b64encode(f.read()).decode('utf-8')
-
-                        pdf_display = f'''<iframe src="data:application/pdf;base64,{base64_pdf}#page={st.session_state.pgn+1}"
-                            width="100%" height="900" type="application/pdf" frameborder="0"></iframe>'''
-                    
-                        st.session_state.pdf.markdown(pdf_display, unsafe_allow_html=True)
-        st.session_state.chat_history.append(((curr,answer)))
+        if st.button("Ask"):                          # ← gate the LLM call
+            answer = get_answer(curr)
+            st.session_state.chat_history.append((curr, answer))
+        # st.session_state.chat_history.append(((curr,answer)))
         st.markdown(body=expander_css,unsafe_allow_html=True)
         st.markdown(body=css,unsafe_allow_html=True)
         for item in st.session_state.chat_history[::-1][:1]:
@@ -124,6 +115,17 @@ def main():
                 st.session_state.qa=process_file(temp.name)
                 # st.session_state.qa=qa
                 st.markdown("processing done! ")
+    
+    if st.session_state.pdf_doc is not None:
+        with NamedTemporaryFile(suffix="pdf") as temp2:
+                temp2.write(st.session_state.pdf_doc.getvalue())
+                with open(temp2.name, "rb") as f:
+                    base64_pdf = base64.b64encode(f.read()).decode('utf-8')
+
+                    pdf_display = f'''<iframe src="data:application/pdf;base64,{base64_pdf}#page={st.session_state.pgn+1}"
+                        width="100%" height="900" type="application/pdf" frameborder="0"></iframe>'''
+                
+                    st.session_state.pdf.markdown(pdf_display, unsafe_allow_html=True)
 
     # Task 5: Load and Process the PDF 
     
