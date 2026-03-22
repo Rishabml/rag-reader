@@ -113,14 +113,14 @@ def main():
                 # pdf_f=PdfReader(temp)
                 st.session_state.pdfname=temp.name
                 print(temp.name)
-                st.write(temp.name)
+                # st.write(temp.name)
                 st.session_state.qa=process_file(temp.name)
                 # st.session_state.qa=qa
                 st.markdown("processing done! ")
     
     if st.session_state.pdf_doc is not None:
         with NamedTemporaryFile(suffix="pdf") as temp2:
-                # temp2.write(st.session_state.pdf_doc.getvalue())
+                temp2.write(st.session_state.pdf_doc.getvalue())
                 with open(temp2.name, "rb") as f:
                     base64_pdf = base64.b64encode(f.read()).decode('utf-8')
 
