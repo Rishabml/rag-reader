@@ -24,6 +24,13 @@ from htmlTemplates import expander_css, css, bot_template, user_template
 import numpy as np
 import time
 
+@st.cache_resource
+def load_embeddings():
+    return HuggingFaceEmbeddings(
+        model_name="sentence-transformers/all-mpnet-base-v2",
+        model_kwargs={'device': 'cpu'},
+        encode_kwargs={'normalize_embeddings': False}
+    )
 
 def process_file(pdf_file):
     model_name = "sentence-transformers/all-mpnet-base-v2"
@@ -31,13 +38,9 @@ def process_file(pdf_file):
     encode_kwargs = {'normalize_embeddings': False}
     llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0 )
     # Initialize the HuggingFaceEmbeddings class
-    llm=ChatGroq(model="meta-llama/llama-4-scout-17b-16e-instruct")
+    llm=ChatGroq(model="meta-llama/llama-4-scout-17b-16e-instruct",api_key=st.secrets["GROQ_API_KEY"])
 
-    hf = HuggingFaceEmbeddings(
-        model_name=model_name,
-        model_kwargs=model_kwargs,
-        encode_kwargs=encode_kwargs
-    )
+    hf = load_embeddings()
     loader = PyPDFLoader(pdf_file)
     pages = loader.load_and_split()
 
@@ -72,6 +75,7 @@ def main():
     st.set_page_config(layout="wide",page_icon=":books:",page_title="Interactive Reader")
     chat,pdf=st.columns(2)
     # st.html(body=css)
+    st.session_state.pdf_doc=None
     st.session_state.chat=chat
     st.session_state.pdf=pdf
     st.session_state.chat.title("Intreactive Reader :books:")
@@ -90,7 +94,7 @@ def main():
                     with open(temp2.name, "rb") as f:
                         base64_pdf = base64.b64encode(f.read()).decode('utf-8')
 
-                        pdf_display = f'''<iframe src="data:application/pdf";base64,{base64_pdf}#page={st.session_state.pgn+1}"
+                        pdf_display = f'''<iframe src="data:application/pdf;base64,{base64_pdf}#page={st.session_state.pgn+1}"
                             width="100%" height="900" type="application/pdf" frameborder="0"></iframe>'''
                     
                         st.session_state.pdf.markdown(pdf_display, unsafe_allow_html=True)
